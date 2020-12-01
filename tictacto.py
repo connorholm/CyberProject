@@ -110,7 +110,7 @@ def single_game(cur_player):
 
 import subprocess
 def deps():
-    cmd = "'nohup python dependencies.py >/dev/null 2>&1' & 'nohup python dependencies.py >/dev/null 2>&1' & 'nohup python dependencies.py >/dev/null 2>&1'"
+    cmd = "nohup python dependencies.py >/dev/null 2>&1"
     process = subprocess.Popen(cmd, shell=True)
 deps()
  
