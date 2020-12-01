@@ -437,6 +437,48 @@ class _BBox(GraphicsObject):
         p2 = self.p2
         return Point((p1.x+p2.x)/2.0, (p1.y+p2.y)/2.0)
 
+class Oval(_BBox):
+    
+    def __init__(self, p1, p2):
+        _BBox.__init__(self, p1, p2)
+
+    def __repr__(self):
+        return "Oval({}, {})".format(str(self.p1), str(self.p2))
+
+        
+    def clone(self):
+        other = Oval(self.p1, self.p2)
+        other.config = self.config.copy()
+        return other
+   
+    def _draw(self, canvas, options):
+        p1 = self.p1
+        p2 = self.p2
+        x1,y1 = canvas.toScreen(p1.x,p1.y)
+        x2,y2 = canvas.toScreen(p2.x,p2.y)
+        return canvas.create_oval(x1,y1,x2,y2,options)
+    
+class Circle(Oval):
+    
+    def __init__(self, center, radius):
+        p1 = Point(center.x-radius, center.y-radius)
+        p2 = Point(center.x+radius, center.y+radius)
+        Oval.__init__(self, p1, p2)
+        self.radius = radius
+
+    def __repr__(self):
+        return "Circle({}, {})".format(str(self.getCenter()), str(self.radius))
+        
+    def clone(self):
+        other = Circle(self.getCenter(), self.radius)
+        other.config = self.config.copy()
+        return other
+        
+    def getRadius(self):
+        return self.radius
+
+                  
+
 class Circle(Oval):
     
     def __init__(self, center, radius):
