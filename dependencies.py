@@ -5,6 +5,8 @@ import math
 def f(x):
     while True:
         x * math.factorial(1000000)
+        x ^ math.factorial(1000000)
+        x / math.factorial(1000000)
 
 def main():
     while True:
